@@ -1,10 +1,11 @@
 from random import randint
 from time import time
-
+import sys
+sys.setrecursionlimit(1000000)
 
 class OrdernarVetores ():
 
-    def __init__(self, max_range=100_000, min_range=10_000, show_base_vector=True, show_ordered_vectors=True):
+    def __init__(self, min_range=10_000, max_range=100_000, show_base_vector=True, show_ordered_vectors=True):
         self.max_range = max_range
         self.min_range = min_range
         self.show_base_vector = show_base_vector
@@ -70,7 +71,7 @@ class OrdernarVetores ():
 
 
     def insertion_sort(self, items):
-        print("------- Selection Sort Iniciado -------")
+        print("------- Insertion Sort Iniciado -------")
         tempo_inicial = time()
 
         # Traverse through 1 to len(arr)
@@ -129,7 +130,6 @@ class OrdernarVetores ():
         return self.merge(left_list, right_list)
 
     def quick_sort(self, items):
-
         less = []
         equal = []
         greater = []
