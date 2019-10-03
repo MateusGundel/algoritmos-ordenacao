@@ -13,9 +13,17 @@ class OrdernarVetores ():
 
         self.insertion_sort(self.vetor)
 
-        self.merge_sort(self.vetor)
+        print("------- Merge Sort Iniciado -------")
+        tempo_inicial = time()
+        items_temp = self.merge_sort(self.vetor)
+        print(
+            f'\nVetor Ordenado: {items_temp}\nTempo: {time()-tempo_inicial}\n')
 
-        self.split_sort(self.vetor)
+        print("------- Quick Sort Iniciado -------")
+        tempo_inicial = time()
+        items_temp = self.quick_sort(self.vetor)
+        print(
+            f'\nVetor Ordenado: {items_temp}\nTempo: {time()-tempo_inicial}\n')
 
     def criar_vetor(self):
         print("------- Criando o vetor -------")
@@ -60,6 +68,7 @@ class OrdernarVetores ():
             # greater than key, to one position ahead
             # of their current position
             j = i-1
+
             while j >= 0 and key < items[j]:
                 items[j+1] = items[j]
                 j -= 1
@@ -67,14 +76,58 @@ class OrdernarVetores ():
 
         print(f'\nVetor Ordenado: {items}\nTempo: {time()-tempo_inicial}\n')
 
+    def merge(self, left_list, right_list):
+        sorted_list = []
+        left_list_index = right_list_index = 0
+        left_list_length, right_list_length = len(left_list), len(right_list)
+
+        for _ in range(left_list_length + right_list_length):
+            if left_list_index < left_list_length and right_list_index < right_list_length:
+                if left_list[left_list_index] <= right_list[right_list_index]:
+                    sorted_list.append(left_list[left_list_index])
+                    left_list_index += 1
+                else:
+                    sorted_list.append(right_list[right_list_index])
+                    right_list_index += 1
+
+            elif left_list_index == left_list_length:
+                sorted_list.append(right_list[right_list_index])
+                right_list_index += 1
+            elif right_list_index == right_list_length:
+                sorted_list.append(left_list[left_list_index])
+                left_list_index += 1
+
+        return sorted_list
+
+
     def merge_sort(self, items):
-        print("------- Merge Sort Iniciado -------")
-        tempo_inicial = time()
+        if len(items) <= 1:
+            return items
+        
+        mid = len(items) // 2
+        
+        left_list = self.merge_sort(items[:mid])
+        right_list = self.merge_sort(items[mid:])
 
-        print(f'\nVetor Ordenado: {items}\nTempo: {time()-tempo_inicial}\n')
+        return self.merge(left_list, right_list)
 
-    def split_sort(self, items):
-        print("------- Split Sort Iniciado -------")
-        tempo_inicial = time()
+    def quick_sort(self, items):
+        
 
-        print(f'\nVetor Ordenado: {items}\nTempo: {time()-tempo_inicial}\n')
+        less = []
+        equal = []
+        greater = []
+
+        if len(items) > 1:
+            pivot = items[0]
+            for x in items:
+                if x < pivot:
+                    less.append(x)
+                elif x == pivot:
+                    equal.append(x)
+                elif x > pivot:
+                    greater.append(x)
+            return self.quick_sort(less)+equal+self.quick_sort(greater)
+        else:   
+            return items
+
