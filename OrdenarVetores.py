@@ -1,7 +1,7 @@
 from random import randint
 from time import time
 import sys
-sys.setrecursionlimit(1000000)
+sys.setrecursionlimit(1000000000)
 
 class OrdernarVetores ():
 
@@ -36,12 +36,13 @@ class OrdernarVetores ():
             print(f'\nTempo: {time()-tempo_inicial}\n')
 
     def criar_vetor(self):
-        print("------- Criando o vetor -------")
-
+        print("\n------- Criando o vetor -------")
         self.vetor = []
 
         for i in range(randint(self.min_range, self.max_range)):
             self.vetor.append(randint(0, 200_000))
+
+        print(f'Tamanho do vetor: {len(self.vetor)}\n')
 
         if self.show_ordered_vectors:
             print(f'Novo vetor:\n{self.vetor}\n')
