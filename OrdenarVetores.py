@@ -1,12 +1,15 @@
 from random import randint
 from time import time
 
-class OrdernarVetores ():
-    vetor = []
-    MAX_RANGE = 100_000
-    MIN_RANGE = 10_000
 
-    def __init__(self):
+class OrdernarVetores ():
+
+    def __init__(self, max_range=100_000, min_range=10_000, show_base_vector=True, show_ordered_vectors=True):
+        self.max_range = max_range
+        self.min_range = min_range
+        self.show_base_vector = show_base_vector
+        self.show_ordered_vectors = show_ordered_vectors
+
         self.criar_vetor()
 
         self.selection_sort(self.vetor)
@@ -16,24 +19,31 @@ class OrdernarVetores ():
         print("------- Merge Sort Iniciado -------")
         tempo_inicial = time()
         items_temp = self.merge_sort(self.vetor)
-        print(
-            f'\nVetor Ordenado: {items_temp}\nTempo: {time()-tempo_inicial}\n')
+        if self.show_ordered_vectors:
+            print(
+                f'\nVetor Ordenado: {items_temp}\nTempo: {time()-tempo_inicial}\n')
+        else:
+            print(f'\nTempo: {time()-tempo_inicial}\n')
 
         print("------- Quick Sort Iniciado -------")
         tempo_inicial = time()
         items_temp = self.quick_sort(self.vetor)
-        print(
-            f'\nVetor Ordenado: {items_temp}\nTempo: {time()-tempo_inicial}\n')
+        if self.show_ordered_vectors:
+            print(
+                f'\nVetor Ordenado: {items_temp}\nTempo: {time()-tempo_inicial}\n')
+        else:
+            print(f'\nTempo: {time()-tempo_inicial}\n')
 
     def criar_vetor(self):
         print("------- Criando o vetor -------")
 
         self.vetor = []
 
-        for i in range(randint(self.MIN_RANGE, self.MAX_RANGE)):
-            self.vetor.append(randint(0, 9))
+        for i in range(randint(self.min_range, self.max_range)):
+            self.vetor.append(randint(0, 200_000))
 
-        print(f'Novo vetor:\n{self.vetor}\n')
+        if self.show_ordered_vectors:
+            print(f'Novo vetor:\n{self.vetor}\n')
 
     def selection_sort(self, items):
         print("------- Selection Sort Iniciado -------")
@@ -53,7 +63,11 @@ class OrdernarVetores ():
                 items[smallest_index],
                 items[index]
             )  # Por fim, faz a troca de posição dos itens: o menor #encontrado com o item que está sendo iterado.
-        print(f'\nVetor Ordenado: {items}\nTempo: {time()-tempo_inicial}\n')
+        if self.show_ordered_vectors:
+            print(f'\nVetor Ordenado: {items}\nTempo: {time()-tempo_inicial}\n')
+        else:
+            print(f'\nTempo: {time()-tempo_inicial}\n')
+
 
     def insertion_sort(self, items):
         print("------- Selection Sort Iniciado -------")
@@ -74,7 +88,11 @@ class OrdernarVetores ():
                 j -= 1
             items[j+1] = key
 
-        print(f'\nVetor Ordenado: {items}\nTempo: {time()-tempo_inicial}\n')
+        if self.show_ordered_vectors:
+            print(
+                f'\nVetor Ordenado: {items}\nTempo: {time()-tempo_inicial}\n')
+        else:
+            print(f'\nTempo: {time()-tempo_inicial}\n')
 
     def merge(self, left_list, right_list):
         sorted_list = []
@@ -99,20 +117,18 @@ class OrdernarVetores ():
 
         return sorted_list
 
-
     def merge_sort(self, items):
         if len(items) <= 1:
             return items
-        
+
         mid = len(items) // 2
-        
+
         left_list = self.merge_sort(items[:mid])
         right_list = self.merge_sort(items[mid:])
 
         return self.merge(left_list, right_list)
 
     def quick_sort(self, items):
-        
 
         less = []
         equal = []
@@ -128,6 +144,5 @@ class OrdernarVetores ():
                 elif x > pivot:
                     greater.append(x)
             return self.quick_sort(less)+equal+self.quick_sort(greater)
-        else:   
+        else:
             return items
-
